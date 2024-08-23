@@ -5,7 +5,7 @@ import app
 
 logging.basicConfig(level=logging.INFO)
 
-TOKEN = 'YOUR TELEGRAM BOT TOKEN'
+TOKEN = '6888951177:AAEZMoJqLyS6hxxJrPpUfF2MJ8mi_WjD27k'
 
 async def chat_completion(prompt, model):
     client = AsyncClient()
