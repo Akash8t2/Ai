@@ -1,0 +1,33 @@
+{
+    "name": "⛦Ak-Ai⛦",
+    "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
+    "logo": "https://te.legra.ph/file/62fa7c81c56c1ae31c844.jpg",
+    "keywords": [
+    "python3",
+    "telegram",
+    "bot", 
+    "Aibot",
+    "telegram-bot",
+    "pyrogram"
+    ],
+    "env": {
+      "BOT_TOKEN": {
+        "description": "A Bot's token from Botfather",
+        "value": "",
+        "required": true
+      }
+    }, 
+
+    "buildpacks": [
+          {
+              "url": "heroku/python"
+          },
+          {
+              "url": "heroku/nodejs"
+          },
+          {
+              "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+          }
+      ],
+      "stack": "container"
+  }
