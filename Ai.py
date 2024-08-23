@@ -13,13 +13,13 @@ async def chat_completion(prompt, model):
     return output['content']
 
 def start(update, context):
-    context.bot.send_message(chat_id=(link unavailable), text="Hello! I'm your AI chatbot.")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Hello! I'm your AI chatbot.")
 
 def message_handler(update, context):
     prompt = update.message.text
     model = 'bard'  # yeh model ko aap apne hisab se change kar sakte hain
     output = chat_completion(prompt, model)
-    context.bot.send_message(chat_id=(link unavailable), text=output)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=output)
 
 def main():
     updater = Updater(token=TOKEN, use_context=True)
