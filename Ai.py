@@ -1,5 +1,5 @@
 import requests
-from config import *
+import app
 import time
 from pyrogram.enums import ChatAction, ParseMode
 from pyrogram import filters
