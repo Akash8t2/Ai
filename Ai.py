@@ -1,39 +1,23 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler
-import logging
-from lexica import AsyncClient
-import app
+import requests
+from config import *
+import time
+from pyrogram.enums import ChatAction, ParseMode
+from pyrogram import filters
+from MukeshAPI import api
 
-logging.basicConfig(level=logging.INFO)
+@app.on_message(filters.command(["chatgpt", "ai", "ask", "", "iri"], prefixes=[".", "J", "j", "s", "", "/"]))
+async def chat_gpt(bot, message):
+    try:
+        await bot.send_chat_action(message.chat.id, ChatAction.TYPING)
 
-TOKEN = '6888951177:AAEZMoJqLyS6hxxJrPpUfF2MJ8mi_WjD27k'
+        # Check if name is defined, if not, set a default value
+        name = message.from_user.first_name if message.from_user else "User"
 
-async def chat_completion(prompt, model):
-    client = AsyncClient()
-    output = await client.ChatCompletion(prompt, model)
-    return output['content']
-
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Hello! I'm your AI chatbot.")
-
-def message_handler(update, context):
-    prompt = update.message.text
-    model = 'bard'  # yeh model ko aap apne hisab se change kar sakte hain
-    output = chat_completion(prompt, model)
-    context.bot.send_message(chat_id=update.effective_chat.id, text=output)
-
-def main():
-    updater = Updater(token=TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
-
-    start_handler = CommandHandler('start', start)
-    dispatcher.add_handler(start_handler)
-
-    message_handler = MessageHandler(Filters.text & (~Filters.command), message_handler)
-    dispatcher.add_handler(message_handler)
-
-    updater.start_polling()
-    updater.idle()
-
-if __name__ == '__main__':
-    main()
-  
+        if len(message.command) < 2:
+            await message.reply_text(f"Hello {name}, How can I help you today?")
+        else:
+            query = message.text.split(' ', 1)[1]
+            response = api.gemini(query)["results"]
+            await message.reply_text(f"{response}", parse_mode=ParseMode.MARKDOWN)
+    except Exception as e:
+        await message.reply_text(f"Error: {e}")
